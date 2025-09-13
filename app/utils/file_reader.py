@@ -2,12 +2,11 @@ from os import listdir
 from os.path import join, isfile
 from app.models.estacao import EstacaoMeteorologica
 from app.models.registro import RegistroMetereologico
-from time import sleep
 
 class Reader:
     @staticmethod
     def read_csv(option:int)->list[EstacaoMeteorologica]:
-        option_year={
+        option_year:dict[int,int]={
             1:2020,      
             2:2021,
             3:2022,
@@ -15,7 +14,7 @@ class Reader:
             5:2024
         }
         try:
-            path=f"data/{option_year[option]}"
+            path:str=f"data/{option_year[option]}"
         except Exception: 
             raise IndexError() 
         
@@ -26,13 +25,13 @@ class Reader:
 
         for file in listdir(path):
 
-            full_path=join(path,file)
+            full_path:str=join(path,file)
             if not isfile(full_path):
                 print('arquivo inexistente')
                 
-            linhas=''
+            linhas:list[str]
             with open(file=full_path,mode="r",encoding="latin-1") as f:
-                linhas=f.readlines()
+                linhas:list[str]=f.readlines()
             
   
             # print('regiao:', get_region(linhas[0].split(':;')[1].rstrip('\n')) )
@@ -44,7 +43,7 @@ class Reader:
             # print('altitude:',linhas[6].split(':;')[1])
             # print('data fundacao:',linhas[7].split(':;')[1])
             
-            headers=linhas[8]
+            headers:str=linhas[8]
             total_records:list[str]=linhas[9:len(linhas)]
             
             organized_records:dict[str,list[str]] = {

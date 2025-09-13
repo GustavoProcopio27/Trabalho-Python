@@ -15,14 +15,22 @@ class RegistroMetereologico:
 
     @data.setter
     def data(self, value):
-        self._data = value
-
+        if not isinstance(value,str):
+            raise TypeError("data deve ser passado como string")
+        try:
+            self._data:date = datetime.strptime(value, "%Y/%m/%d").date() 
+        except Exception as ex:
+            print(f"Formatacao incorreta {ex}")
+            raise TypeError("formato incorreto")
+        
     @property
     def hora(self):
         return self._hora
 
     @hora.setter
     def hora(self, value):
+        if not isinstance(value,str):
+            raise TypeError("hora deve ser passado como string")
         self._hora = value
 
     @property
@@ -31,6 +39,8 @@ class RegistroMetereologico:
 
     @temperatura.setter
     def temperatura(self, value):
+        if not isinstance(value,(float,int)):
+            raise TypeError("temperatura deve ser passado como float ou int")
         self._temperatura = value
 
     @property
@@ -39,6 +49,8 @@ class RegistroMetereologico:
 
     @umidade.setter
     def umidade(self, value):
+        if not isinstance(value,(float,int)):
+            raise TypeError("temperatura deve ser passado como float ou int")
         self._umidade = value
 
     @property
@@ -47,6 +59,8 @@ class RegistroMetereologico:
 
     @precipitacao.setter
     def precipitacao(self, value):
+        if not isinstance(value,(float,int)):
+            raise TypeError("temperatura deve ser passado como float ou int") 
         self._precipitacao = value
  
     def __str__(self):

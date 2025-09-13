@@ -17,7 +17,7 @@ class EstacaoMeteorologica:
         return self._codigo
     
     @codigo.setter
-    def codigo(self,v):
+    def codigo(self,v:str):
         if not isinstance(v,str):
             raise TypeError("Codigo deve ser uma string")
         self._codigo=v
@@ -27,7 +27,7 @@ class EstacaoMeteorologica:
         return self._uf
 
     @uf.setter
-    def uf(self, v):
+    def uf(self, v:str):
         if not isinstance(v, str):
             raise TypeError("UF deve ser uma string.")
         self._uf = v
@@ -37,7 +37,7 @@ class EstacaoMeteorologica:
         return self._latitude
 
     @latitude.setter
-    def latitude(self, v):
+    def latitude(self, v:float):
         if not isinstance(v, float):
             raise TypeError("Latitude deve ser float.")
         self._latitude = v
@@ -47,7 +47,7 @@ class EstacaoMeteorologica:
         return self._longitude
 
     @longitude.setter
-    def longitude(self, v):
+    def longitude(self, v:float):
         if not isinstance(v, float):
             raise TypeError("Longitude deve ser float.")
         self._longitude = v
@@ -57,7 +57,7 @@ class EstacaoMeteorologica:
         return self._altitude
 
     @altitude.setter
-    def altitude(self, v):
+    def altitude(self, v:float):
         if not isinstance(v, float):
             raise TypeError("Altitude deve ser float.")
         self._altitude = v
@@ -67,9 +67,13 @@ class EstacaoMeteorologica:
         return self._registros
 
     @registros.setter
-    def registros(self, v):
+    def registros(self, v:list[RegistroMetereologico]):
         if not isinstance(v, list):
             raise TypeError("Registros deve ser uma lista.")
+        
+        if not all(isinstance(item,RegistroMetereologico) for item in v):
+            raise TypeError("Os elementos da lista devem ser Registros meteorologicos")
+        
         self._registros = v
 
     @property

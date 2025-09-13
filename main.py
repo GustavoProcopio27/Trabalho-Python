@@ -1,8 +1,7 @@
-from app.ui.terminal import show_folder_chooser_menu,show_estacoes,show_statisticas,show_estacoes_data
+from app.ui.terminal import show_folder_chooser_menu,show_estacoes,show_statisticas,show_estacoes_data,show_stations_quantity_chooser_menu
 from app.utils.export_data import exportar_relatorio
 from app.utils.decorators import main_ruuner
 from app.utils.file_reader import Reader
-from app.utils.exceptions import BreakCase
 from datetime import date,datetime
 from time import sleep
 from typing import TYPE_CHECKING
@@ -18,56 +17,150 @@ def main(option):
     global estacoes
     
     match option:
-
+        ################################################################################
+        #                           Ver Carregar dados                                 #
+        ################################################################################
         case 1:
             show_folder_chooser_menu()
+            try:
+                opcao=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except TypeError:
+                print("Opção invalida, retornando...")
+                sleep(1)
 
-            opcao=int(input("--------------- Escolha uma opção ---------------:\n"))
-            print("\n")    
+                return False
+            print("\n")   
+             
             estacoes+=Reader.read_csv(opcao)
      
-                     
+     
+     
+     
+        ################################################################################
+        #                                  Ver estacoes                                #
+        ################################################################################                     
         case 2:
             if not estacoes:
-                raise BreakCase()
-            show_estacoes(estacoes)
+                print("Nenhuma estacao disponivel, retornando...")
+                sleep(1)
 
+                return False
+            
+            show_stations_quantity_chooser_menu()
+            
+            try:
+                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except TypeError:
+                print('Opção invalida, retornando...')
+                sleep(1)
+                return False
+            
+            match escolha:
+                case 1:
+                    show_estacoes(estacoes)
+                    
+                case 2:
+                    codigo:str=input("Entre com o codigo da estacao:")
+                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    show_estacoes(estacao_escolhida)
+    
+                
+                case _:
+                    show_estacoes(estacoes)
+
+
+
+
+
+
+        ################################################################################
+        #                              Ver estatisticas                                #
+        ################################################################################
         case 3:
             if not estacoes:
-                raise BreakCase()
+                print('Opção invalida, retornando...')
+                sleep(1)
+                return False
 
+            show_stations_quantity_chooser_menu()
+            try:
+                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except TypeError:
+                print('Opção invalida, retornando...')
+                sleep(1)
+                return False
             
-            # Estatisticas de uma estacao
-            
-            
-            # Estatisticas de tudo
-            show_statisticas(estacoes)    
+            match escolha:
+                case 1:
+                    show_statisticas(estacoes)
+                    
+                case 2:
+                    codigo:str=input("Entre com o codigo da estacao")
+                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    show_statisticas(estacao_escolhida)
+    
                 
-         
-        
+                case _:
+                    show_statisticas(estacoes)              
+                
+        ################################################################################
+        #                              Filtrar pela data                               #
+        ################################################################################              
         case 4:
-            
-            
             
             # Filtrar registros de todas estacoes por data
             inicio= input("Data inicial:")
-            fim=input("Data final:")
+            fim = input("Data final:")
             
             try:
                 inicio,fim=datetime.strptime(inicio,"%Y/%m/%d").date(),datetime.strptime(fim,"%Y/%m/%d").date()
             except Exception as ex:
-                print(f"formato invalido: {ex}")
-            
-            show_estacoes_data(estacoes,inicio,fim)    
+                print(f"formato invalido: {ex}, retornando...")
+                sleep(1)
+                
+                return False
+                
+            show_stations_quantity_chooser_menu()
+            escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            match escolha:
+                case 1:
+                    show_estacoes_data(estacoes,inicio,fim) 
+                    
+                case 2:
+                    codigo:str=input("Entre com o codigo da estacao")
+                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    show_estacoes_data(estacoes,inicio,fim) 
+    
+                
+                case _:
+                    show_estacoes_data(estacoes,inicio,fim)             
         
-        
+        ################################################################################
+        #                            imprimir relatorio                                #
+        ################################################################################        
         case 5:
+            show_stations_quantity_chooser_menu()
+            try:
+                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except TypeError as ex:
+                return False
             
-        # Exportando relatorio com todas
-            exportar_relatorio(estacoes)
-        
-        
-        
+            match escolha:
+                case 1:
+                    exportar_relatorio(estacoes) 
+                    
+                case 2:
+                    codigo:str=input("Entre com o codigo da estacao")
+                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    exportar_relatorio(estacoes) 
+    
+                
+                case _:
+                    exportar_relatorio(estacoes)            
+            
+        ################################################################################
+        #                              Sair da aplicação                               #
+        ################################################################################        
         case 6:
             print("Saindo da aplicação...")
             sleep(1)
@@ -76,6 +169,7 @@ def main(option):
         case _:
             print("Opção invalida, retornando...")
             sleep(1)
+            
 
 
 

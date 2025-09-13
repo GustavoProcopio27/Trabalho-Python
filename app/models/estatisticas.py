@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING
 from statistics import mean
-if TYPE_CHECKING:
-    from app.models.registro import RegistroMetereologico
+from app.models.registro import RegistroMetereologico
     
 class Estatisticas:
     def __init__(self,registros):
-        self._registros:list["RegistroMetereologico"]=registros
+        self._registros:list[RegistroMetereologico]=registros
         self._lista_temperatura=list()
         self._lista_umidade=list()
         self._lista_precipitacao=list()
@@ -28,18 +27,43 @@ class Estatisticas:
     
     @registros.setter
     def registros(self,v):
+        if not isinstance(v,list):
+            raise TypeError("registros deve ser uma lista")
+        
+        if not all(isinstance(item, RegistroMetereologico) for item in v):
+            raise TypeError("Todo item na lista deve ser um registro meteorologico deve ser um float ou int")
         self._registros=v
+        
         
     @lista_temperatura.setter
     def lista_temperatura(self,v):
+        if not isinstance(v,list):
+            raise TypeError("Lista de temperaturas deve ser uma lista")
+        
+        if not all(isinstance(item, (int,float)) for item in v):
+            raise TypeError("Todo item na lista de temperaturas deve ser um float ou int")
+        
         self._lista_temperatura=v
+        
         
     @lista_umidade.setter
     def lista_umidade(self,v):
+        if not isinstance(v,list):
+            raise TypeError("Lista de umidade deve ser uma lista")
+        
+        if not all(isinstance(item, (int,float)) for item in v):
+            raise TypeError("Todo item na lista de umidade deve ser um float ou int")
         self._lista_umidade=v
+        
+        
         
     @lista_precipitacao.setter
     def lista_precipitacao(self,v):
+        if not isinstance(v,list):
+            raise TypeError("Lista de precipitacao deve ser uma lista")
+        
+        if not all(isinstance(item, (int,float)) for item in v):
+            raise TypeError("Todo item na lista de precipitacao deve ser um float ou int")
         self._lista_precipitacao=v
     
     

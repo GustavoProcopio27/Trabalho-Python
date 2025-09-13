@@ -6,7 +6,7 @@ from app.models.registro import RegistroMetereologico
 from datetime import date
 
 class TerminalUI(Enum):
-    MENU_SELECTORS = (
+    MENU_SELECTORS:str = (
                         "=============== MENU ==================== \n"      
                         "1. Carregar arquivos da pasta \n"                  
                         "2. Exibir dados da(s) estação(ões)\n"              
@@ -17,7 +17,8 @@ class TerminalUI(Enum):
                         
                     ) 
     
-    YEAR_CHOOSER = (
+    YEAR_CHOOSER:str = (
+                    "=============== OPÇÕES ==================== \n"
                     "1. Dados de 2020\n"        
                     "2. Dados de 2021\n"
                     "3. Dados de 2022\n"
@@ -25,14 +26,22 @@ class TerminalUI(Enum):
                     "5. Dados de 2024\n"
                    )   
     
+    NUMBER_SELECTOR:str = (
+                    "=============== OPÇÕES ==================== \n"
+                    "1. Todas estações\n"
+                    "2. Única estação\n"
+                    )
+    
 def show_main_menu():
     print(TerminalUI.MENU_SELECTORS.value)
 
 def show_folder_chooser_menu():
     print(TerminalUI.YEAR_CHOOSER.value)
     
+def show_stations_quantity_chooser_menu():
+    print(TerminalUI.NUMBER_SELECTOR.value)    
     
-    
+
     
 def show_estacoes(estacoes:list[EstacaoMeteorologica]):
     for estacao in estacoes:
@@ -41,16 +50,20 @@ def show_estacoes(estacoes:list[EstacaoMeteorologica]):
         print(tabulate(registros))    
         
         
+        
 def show_statisticas(estacoes:list[EstacaoMeteorologica]):
+    if not estacoes:
+        print("Nenhuma estacao encontrada")    
     for estacao in estacoes:
         print(estacao)
-        estatisticas=Estatisticas(estacao.registros)
+        estatisticas:Estatisticas=Estatisticas(estacao.registros)
         print("\n * Estatisticas da estação:\n")
         print(estatisticas)
+    
         
 def show_estacoes_data(estacoes:list[EstacaoMeteorologica],inicio:date,fim:date):
     for estacao in estacoes:
         print(estacao) 
         registros:list[RegistroMetereologico] = estacao.registros
-        registros=[registro for registro in registros if registro.data>=inicio and registro.data<fim]
+        registros:list[RegistroMetereologico]=[registro for registro in registros if registro.data>=inicio and registro.data<fim]
         print(tabulate(registros))              

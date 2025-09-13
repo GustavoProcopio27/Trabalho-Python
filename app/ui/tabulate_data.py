@@ -1,12 +1,12 @@
-from typing import TYPE_CHECKING,NoReturn
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.models.registro import RegistroMetereologico
 from time import sleep
-def tabulate(data:list["RegistroMetereologico"])->NoReturn:
+def tabulate(data:list["RegistroMetereologico"])->None:
     formated_data=list()
     for row in data:
         data, hora, temperatura, umidade, precipitacao = row.tolist()
-        linha_formatada = [
+        linha_formatada:list[str] = [
             f"{str(data):<15}",                   # data: até 15 caracteres (sobrando)
             f"{hora:<10}",                    # hora: até 10, suficiente pra "2300 UTC"
             f"{float(temperatura):>10.2f}",   # temperatura: até 10, com 2 casas decimais
@@ -16,7 +16,7 @@ def tabulate(data:list["RegistroMetereologico"])->NoReturn:
         formated_data.append(linha_formatada)
 
     # Cabeçalhos com mesmo espaçamento
-    headers = [
+    headers:list[str] = [
         f"{'data':<15}",
         f"{'hora':<10}",
         f"{'temperatura':>10}",
