@@ -1,24 +1,20 @@
-from app.ui.terminal import show_folder_chooser_menu
-from app.ui.tabulate_data import tabulate
-
+from app.ui.terminal import show_folder_chooser_menu,show_estacoes,show_statisticas,show_estacoes_data
+from app.utils.export_data import exportar_relatorio
 from app.utils.decorators import main_ruuner
 from app.utils.file_reader import Reader
-from app.utils.logging_config import configurar_logging
 from app.utils.exceptions import BreakCase
+from datetime import date,datetime
 from time import sleep
 from typing import TYPE_CHECKING
-import logging 
+
 if TYPE_CHECKING:
     from app.models.estacao import EstacaoMeteorologica
-    from app.models.registro import RegistroMetereologico
     
 estacoes:list["EstacaoMeteorologica"]=list()
     
 @main_ruuner()
 def main(option):
-    configurar_logging()
-    logger=logging.getLogger(__name__)
-    
+
     global estacoes
     
     match option:
@@ -28,28 +24,47 @@ def main(option):
 
             opcao=int(input("--------------- Escolha uma opção ---------------:\n"))
             print("\n")    
-            estacoes=Reader.read_csv(opcao)
+            estacoes+=Reader.read_csv(opcao)
      
                      
         case 2:
             if not estacoes:
                 raise BreakCase()
-            for estacao in estacoes:
-                print(estacao) 
-                registros:list["RegistroMetereologico"] = estacao.get_registers()
-                print(tabulate(registros))
+            show_estacoes(estacoes)
 
         case 3:
-            pass
-        
+            if not estacoes:
+                raise BreakCase()
+
+            
+            # Estatisticas de uma estacao
+            
+            
+            # Estatisticas de tudo
+            show_statisticas(estacoes)    
+                
+         
         
         case 4:
-            pass
+            
+            
+            
+            # Filtrar registros de todas estacoes por data
+            inicio= input("Data inicial:")
+            fim=input("Data final:")
+            
+            try:
+                inicio,fim=datetime.strptime(inicio,"%Y/%m/%d").date(),datetime.strptime(fim,"%Y/%m/%d").date()
+            except Exception as ex:
+                print(f"formato invalido: {ex}")
+            
+            show_estacoes_data(estacoes,inicio,fim)    
         
         
         case 5:
-            pass
-        
+            
+        # Exportando relatorio com todas
+            exportar_relatorio(estacoes)
         
         
         

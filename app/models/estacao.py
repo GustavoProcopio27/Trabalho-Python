@@ -1,7 +1,6 @@
 from app.models.registro import RegistroMetereologico
 from app.utils.matchers import get_estado,get_region
 
-
 class EstacaoMeteorologica:
     def __init__(self, nome,codigo,regiao,uf,latitude,longitude,altitude,registros):
         self._nome:str=nome
@@ -94,10 +93,8 @@ class EstacaoMeteorologica:
         self._regiao=v
         
     def __str__(self):
-        return f"Estação :\n\n nome:{self.nome}, estado:{get_estado(self.uf)},regiao:{get_region(self.regiao)},codigo:{self.codigo},altitude:{self.altitude},latitude:{self.latitude},longitude:{self.longitude}"    
-        
+        return f"Estação :\n\n Nome:{self.nome}; Codigo:{self.codigo}; Estado:{get_estado(self.uf)}; Regiao:{get_region(self.regiao)}; Altitude:{self.altitude}; Latitude:{self.latitude}; Longitude:{self.longitude}"    
+         
     def __repr__(self):
         return  f"EstacaoMeteorologica({self.nome},{self.codigo},{self.regiao},{self.uf},{self.latitude},{self.longitude},{self.altitude},{self.registros})"
     
-    def get_registers(self):
-        return self.registros

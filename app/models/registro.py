@@ -1,7 +1,9 @@
+from datetime import date,datetime
+
 class RegistroMetereologico:
 
     def __init__ (self, data, hora, temperatura, umidade, precipitacao):
-        self._data:str=data
+        self._data:date=datetime.strptime(data, "%Y/%m/%d").date()
         self._hora:str=hora
         self._temperatura:float=temperatura
         self._umidade:float=umidade

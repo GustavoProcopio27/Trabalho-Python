@@ -1,6 +1,7 @@
 from functools import wraps
 from app.ui.terminal import show_main_menu
 from time import sleep
+from os import name, system
 def main_ruuner():
     def decorator(func):
         @wraps(func)
@@ -13,7 +14,10 @@ def main_ruuner():
                 except Exception:
                     print("t Opção escolhida é invalida, saindo da aplicação...")
                     sleep(1)
-                    break
+                    if name == 'nt':
+                        system('cls')
+                    else:
+                        system('clear')
                 saida = func(option, *args, **kwargs)
                 if saida:
                     break

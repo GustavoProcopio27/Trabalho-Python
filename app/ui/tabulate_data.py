@@ -1,13 +1,13 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING,NoReturn
 if TYPE_CHECKING:
     from app.models.registro import RegistroMetereologico
 from time import sleep
-def tabulate(data:list["RegistroMetereologico"]):
+def tabulate(data:list["RegistroMetereologico"])->NoReturn:
     formated_data=list()
     for row in data:
         data, hora, temperatura, umidade, precipitacao = row.tolist()
         linha_formatada = [
-            f"{data:<15}",                   # data: até 15 caracteres (sobrando)
+            f"{str(data):<15}",                   # data: até 15 caracteres (sobrando)
             f"{hora:<10}",                    # hora: até 10, suficiente pra "2300 UTC"
             f"{float(temperatura):>10.2f}",   # temperatura: até 10, com 2 casas decimais
             f"{float(umidade):>10.2f}",       # umidade: idem
@@ -32,6 +32,7 @@ def tabulate(data:list["RegistroMetereologico"]):
     # Linhas de dados
     for row in formated_data:
         print("| " + " | ".join(row) + " |")
-        sleep(0.2)
+        sleep(0.001)
 
     print("=" * 77)
+    
