@@ -2,7 +2,7 @@ from pathlib import Path
 from io import StringIO
 from app.models.estatisticas import Estatisticas
 from app.models.estacao import EstacaoMeteorologica
-
+from time import sleep
 def get_conteudo(estacoes:list[EstacaoMeteorologica]):
     conteudo=''
     for estacao in estacoes:
@@ -26,7 +26,8 @@ def exportar_relatorio(estacoes):
     try:
         with open(file=arquivo, mode="w",encoding="utf-8") as f:
             f.write(output.getvalue())
-        print(f"Relatorio salvo em {arquivo}")
+        print(f"Relatorio salvo em {arquivo}, retornando ao menu...")
+        sleep(3)
     except Exception as ex:
         print(f"erro: {ex}")
         print("Erro ocorrido ao salvar o arquivo")

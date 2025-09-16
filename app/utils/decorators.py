@@ -7,17 +7,15 @@ def main_ruuner():
         @wraps(func)
         def wrapper(*args, **kwargs):
             while True:
+                system('cls' if name == 'nt' else 'clear')
                 show_main_menu()
                 try:
                     option=int(input("--------------- Escolha uma opção ---------------:\n"))
                     print("\n")
                 except Exception:
-                    print("t Opção escolhida é invalida, saindo da aplicação...")
                     sleep(1)
-                    if name == 'nt':
-                        system('cls')
-                    else:
-                        system('clear')
+                    option=7
+
                 saida = func(option, *args, **kwargs)
                 if saida:
                     break

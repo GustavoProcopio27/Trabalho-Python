@@ -24,7 +24,7 @@ def main(option):
             show_folder_chooser_menu()
             try:
                 opcao=int(input("--------------- Escolha uma opção ---------------:\n"))
-            except TypeError:
+            except ValueError:
                 print("Opção invalida, retornando...")
                 sleep(1)
 
@@ -32,7 +32,7 @@ def main(option):
             print("\n")   
              
             estacoes+=Reader.read_csv(opcao)
-     
+            print("Arquivos carregados com sucesso")
      
      
      
@@ -50,7 +50,7 @@ def main(option):
             
             try:
                 escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
-            except TypeError:
+            except ValueError:
                 print('Opção invalida, retornando...')
                 sleep(1)
                 return False
@@ -85,7 +85,7 @@ def main(option):
             show_stations_quantity_chooser_menu()
             try:
                 escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
-            except TypeError:
+            except ValueError:
                 print('Opção invalida, retornando...')
                 sleep(1)
                 return False
@@ -115,7 +115,7 @@ def main(option):
             try:
                 inicio,fim=datetime.strptime(inicio,"%Y/%m/%d").date(),datetime.strptime(fim,"%Y/%m/%d").date()
             except Exception as ex:
-                print(f"formato invalido: {ex}, retornando...")
+                print(f"formato invalido: a expressão não bate no formato ano/mes/dia, retornando...")
                 sleep(1)
                 
                 return False
@@ -142,7 +142,7 @@ def main(option):
             show_stations_quantity_chooser_menu()
             try:
                 escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
-            except TypeError as ex:
+            except ValueError as ex:
                 return False
             
             match escolha:
@@ -167,7 +167,7 @@ def main(option):
             return True 
         
         case _:
-            print("Opção invalida, retornando...")
+            print("Opção escolhida é invalida, retornando ao menu principal...")
             sleep(1)
             
 
