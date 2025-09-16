@@ -20,7 +20,7 @@ O sistema organiza, processa e exibe estatísticas climáticas em um **menu inte
 
 ## 📌 Requisitos
 
-- Python **3.x**
+- <img alt="python" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"  height="30" width="40"/>  [Python](https://www.python.org/downloads/)
 
 ---
 
