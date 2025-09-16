@@ -33,9 +33,9 @@ def main(option):
              
             estacoes+=Reader.read_csv(opcao)
             print("Arquivos carregados com sucesso")
-     
-     
-     
+            print("Voltando ao menu principal")
+            sleep(2)
+
         ################################################################################
         #                                  Ver estacoes                                #
         ################################################################################                     
@@ -58,15 +58,19 @@ def main(option):
             match escolha:
                 case 1:
                     show_estacoes(estacoes)
-                    
+                    input("\nAperte ENTER para sair da visualização")
                 case 2:
                     codigo:str=input("Entre com o codigo da estacao:")
                     estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    if len(estacao_escolhida)==0:
+                        print("Nenhuma estação encontrada com o codigo inserido")
                     show_estacoes(estacao_escolhida)
-    
+                    input("\nAperte ENTER para sair da visualização")
+
                 
                 case _:
                     show_estacoes(estacoes)
+                    input("\nAperte ENTER para sair da visualização")
 
 
 
@@ -93,16 +97,19 @@ def main(option):
             match escolha:
                 case 1:
                     show_statisticas(estacoes)
-                    
+                    input("\nAperte ENTER para sair da visualização")
+
                 case 2:
-                    codigo:str=input("Entre com o codigo da estacao")
+                    codigo:str=input("Entre com o codigo da estacao:")
                     estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    if len(estacao_escolhida)==0:
+                        print("Nenhuma estação encontrada com o codigo inserido")
                     show_statisticas(estacao_escolhida)
-    
+                    input("\nAperte ENTER para sair da visualização")
                 
                 case _:
                     show_statisticas(estacoes)              
-                
+                    input("\nAperte ENTER para sair da visualização")
         ################################################################################
         #                              Filtrar pela data                               #
         ################################################################################              
@@ -125,16 +132,18 @@ def main(option):
             match escolha:
                 case 1:
                     show_estacoes_data(estacoes,inicio,fim) 
-                    
+                    input("\nAperte ENTER para sair da visualização")
                 case 2:
-                    codigo:str=input("Entre com o codigo da estacao")
+                    codigo:str=input("Entre com o codigo da estacao:")
                     estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
-                    show_estacoes_data(estacoes,inicio,fim) 
-    
+                    if len(estacao_escolhida)==0:
+                        print("Nenhuma estação encontrada com o codigo inserido")
+                    show_estacoes_data(estacao_escolhida,inicio,fim) 
+                    input("\nAperte ENTER para sair da visualização")
                 
                 case _:
                     show_estacoes_data(estacoes,inicio,fim)             
-        
+                    input("\nAperte ENTER para sair da visualização")
         ################################################################################
         #                            imprimir relatorio                                #
         ################################################################################        
@@ -150,9 +159,11 @@ def main(option):
                     exportar_relatorio(estacoes) 
                     
                 case 2:
-                    codigo:str=input("Entre com o codigo da estacao")
+                    codigo:str=input("Entre com o codigo da estacao:")
                     estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
-                    exportar_relatorio(estacoes) 
+                    if len(estacao_escolhida)==0:
+                        print("Nenhuma estação encontrada com o codigo inserido")
+                    exportar_relatorio(estacao_escolhida) 
     
                 
                 case _:
