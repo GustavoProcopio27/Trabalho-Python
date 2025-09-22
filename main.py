@@ -123,7 +123,7 @@ def main(option)->bool:
                 inicio,fim=datetime.strptime(inicio,"%Y/%m/%d").date(),datetime.strptime(fim,"%Y/%m/%d").date()
             except Exception:
                 print(f"formato invalido: a expressão não bate no formato ano/mes/dia, retornando...")
-                sleep(1)
+                sleep(3)
                 
                 return False
                 
