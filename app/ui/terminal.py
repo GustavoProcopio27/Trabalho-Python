@@ -65,5 +65,5 @@ def show_estacoes_data(estacoes:list[EstacaoMeteorologica],inicio:date,fim:date)
     for estacao in estacoes:
         print(estacao) 
         registros:list[RegistroMetereologico] = estacao.registros
-        registros:list[RegistroMetereologico]=[registro for registro in registros if registro.data>=inicio and registro.data<fim]
+        registros:list[RegistroMetereologico]=[registro for registro in registros if registro.data>=inicio and registro.data<=fim]
         print(tabulate(registros))              
