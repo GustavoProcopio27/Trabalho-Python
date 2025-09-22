@@ -18,62 +18,51 @@ class Reader:
         except Exception: 
             raise IndexError() 
         
-        estacoes=list()
-        if len(listdir(path))==0:
+        estacoes:list[EstacaoMeteorologica]=list()
+        diretorio:list[str]=listdir(path)
+        if len(diretorio)==0:
             print("Nenhum dado encontrado, retornando...\n ")
             return None
 
-        for file in listdir(path):
+        for file in diretorio:
 
             full_path:str=join(path,file)
             if not isfile(full_path):
                 print('arquivo inexistente')
+                continue
+            
             else:    
                 linhas:list[str]
                 with open(file=full_path,mode="r",encoding="latin-1") as f:
                     linhas:list[str]=f.readlines()
                 
-    
-                # print('regiao:', get_region(linhas[0].split(':;')[1].rstrip('\n')) )
-                # print('unidade federativa:',get_estado(linhas[1].split(':;')[1].rstrip('\n')))
-                # print('estacao:',linhas[2].split(':;')[1])
-                # print('codigo estacao:',linhas[3].split(':;')[1])
-                # print('latitude:',linhas[4].split(':;')[1])
-                # print('longitude:',linhas[5].split(':;')[1])
-                # print('altitude:',linhas[6].split(':;')[1])
-                # print('data fundacao:',linhas[7].split(':;')[1])
-                
-                headers:str=linhas[8]
-                total_records:list[str]=linhas[9:len(linhas)]
                 
                 organized_records:dict[str,list[str]] = {
-                                        'cabecalho':headers.split(';'),
-                                        'dados':[row.split(';') for row in total_records]
+                                        'cabecalho':linhas[8].split(';'),
+                                        'dados':[row.split(';') for row in linhas[9:len(linhas)]]
                                     }              
 
-                registros_meteorologicos=list()
+                registros_meteorologicos:list[RegistroMetereologico]=list()
                 for linha in organized_records['dados']:
-                    registro=RegistroMetereologico(
+                    registros_meteorologicos.append(RegistroMetereologico(
                         data=linha[0],
                         hora=linha[1],
-                        temperatura=float(linha[8].replace(',','.') or 0),
-                        umidade=float(linha[16].replace(',','.') or 0),
-                        precipitacao=float(linha[3].replace(',','.') or 0)
-                    )
-                    registros_meteorologicos.append(registro)
+                        temperatura=float(linha[7].replace(',','.') or 0),
+                        umidade=float(linha[14].replace(',','.') or 0),
+                        precipitacao=float(linha[2].replace(',','.') or 0)
+                    ))
                     
-                    
-                estacao:list[EstacaoMeteorologica]=EstacaoMeteorologica(
-                                    nome=linhas[2].split(':;')[1].rstrip('\n'),
-                                    codigo=linhas[3].split(':;')[1].rstrip('\n'),
-                                    regiao=linhas[0].split(':;')[1].rstrip('\n'),
-                                    uf=linhas[1].split(':;')[1].rstrip('\n'),
-                                    latitude=float(linhas[4].split(':;')[1].rstrip('\n').replace(',','.')),
-                                    longitude=float(linhas[5].split(':;')[1].rstrip('\n').replace(',','.')),
-                                    altitude=float(linhas[6].split(':;')[1].rstrip('\n').replace(',','.')),
+                
+                estacoes.append(EstacaoMeteorologica(
+                                    nome=linhas[2].split(':;')[1].strip(),
+                                    codigo=linhas[3].split(':;')[1].strip(),
+                                    regiao=linhas[0].split(':;')[1].strip(),
+                                    uf=linhas[1].split(':;')[1].strip(),
+                                    latitude=float(linhas[4].split(':;')[1].strip().replace(',','.')),
+                                    longitude=float(linhas[5].split(':;')[1].strip().replace(',','.')),
+                                    altitude=float(linhas[6].split(':;')[1].replace(";","").strip().replace(',','.')),
                                     registros=registros_meteorologicos
-                                )
-                estacoes.append(estacao)
+                                ))
         
         return estacoes
             

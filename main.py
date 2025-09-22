@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 estacoes:list["EstacaoMeteorologica"]=list()
     
 @main_ruuner()
-def main(option):
+def main(option)->bool:
 
     global estacoes
     
@@ -23,7 +23,7 @@ def main(option):
         case 1:
             show_folder_chooser_menu()
             try:
-                opcao=int(input("--------------- Escolha uma opção ---------------:\n"))
+                opcao:int=int(input("--------------- Escolha uma opção ---------------:\n"))
             except ValueError:
                 print("Opção invalida, retornando...")
                 sleep(1)
@@ -49,7 +49,7 @@ def main(option):
             show_stations_quantity_chooser_menu()
             
             try:
-                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+                escolha:int=int(input("--------------- Escolha uma opção ---------------:\n"))
             except ValueError:
                 print('Opção invalida, retornando...')
                 sleep(1)
@@ -61,7 +61,7 @@ def main(option):
                     input("\nAperte ENTER para sair da visualização")
                 case 2:
                     codigo:str=input("Entre com o codigo da estacao:")
-                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    estacao_escolhida:list["EstacaoMeteorologica"]=[estacao for estacao in estacoes if estacao.codigo==codigo]
                     if len(estacao_escolhida)==0:
                         print("Nenhuma estação encontrada com o codigo inserido")
                     show_estacoes(estacao_escolhida)
@@ -88,7 +88,7 @@ def main(option):
 
             show_stations_quantity_chooser_menu()
             try:
-                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+                escolha:int=int(input("--------------- Escolha uma opção ---------------:\n"))
             except ValueError:
                 print('Opção invalida, retornando...')
                 sleep(1)
@@ -101,7 +101,7 @@ def main(option):
 
                 case 2:
                     codigo:str=input("Entre com o codigo da estacao:")
-                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    estacao_escolhida:list["EstacaoMeteorologica"]=[estacao for estacao in estacoes if estacao.codigo==codigo]
                     if len(estacao_escolhida)==0:
                         print("Nenhuma estação encontrada com o codigo inserido")
                     show_statisticas(estacao_escolhida)
@@ -114,28 +114,31 @@ def main(option):
         #                              Filtrar pela data                               #
         ################################################################################              
         case 4:
-            
+            print("Entre com a data no formato ano/mes/dia \n Exemplo->2020/01/02")
             # Filtrar registros de todas estacoes por data
-            inicio= input("Data inicial:")
-            fim = input("Data final:")
+            inicio :str= input("Data inicial:")
+            fim :str= input("Data final:")
             
             try:
                 inicio,fim=datetime.strptime(inicio,"%Y/%m/%d").date(),datetime.strptime(fim,"%Y/%m/%d").date()
-            except Exception as ex:
+            except Exception:
                 print(f"formato invalido: a expressão não bate no formato ano/mes/dia, retornando...")
                 sleep(1)
                 
                 return False
                 
             show_stations_quantity_chooser_menu()
-            escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            try:
+                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except (ValueError,TypeError):
+                return False
             match escolha:
                 case 1:
                     show_estacoes_data(estacoes,inicio,fim) 
                     input("\nAperte ENTER para sair da visualização")
                 case 2:
                     codigo:str=input("Entre com o codigo da estacao:")
-                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    estacao_escolhida:list["EstacaoMeteorologica"]=[estacao for estacao in estacoes if estacao.codigo==codigo]
                     if len(estacao_escolhida)==0:
                         print("Nenhuma estação encontrada com o codigo inserido")
                     show_estacoes_data(estacao_escolhida,inicio,fim) 
@@ -150,8 +153,8 @@ def main(option):
         case 5:
             show_stations_quantity_chooser_menu()
             try:
-                escolha=int(input("--------------- Escolha uma opção ---------------:\n"))
-            except ValueError as ex:
+                escolha:int=int(input("--------------- Escolha uma opção ---------------:\n"))
+            except ValueError :
                 return False
             
             match escolha:
@@ -160,7 +163,7 @@ def main(option):
                     
                 case 2:
                     codigo:str=input("Entre com o codigo da estacao:")
-                    estacao_escolhida=[estacao for estacao in estacoes if estacao.codigo==codigo]
+                    estacao_escolhida:list["EstacaoMeteorologica"]=[estacao for estacao in estacoes if estacao.codigo==codigo]
                     if len(estacao_escolhida)==0:
                         print("Nenhuma estação encontrada com o codigo inserido")
                     exportar_relatorio(estacao_escolhida) 
@@ -180,6 +183,7 @@ def main(option):
         case _:
             print("Opção escolhida é invalida, retornando ao menu principal...")
             sleep(1)
+            return False
             
 
 

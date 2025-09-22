@@ -3,8 +3,8 @@ from io import StringIO
 from app.models.estatisticas import Estatisticas
 from app.models.estacao import EstacaoMeteorologica
 from time import sleep
-def get_conteudo(estacoes:list[EstacaoMeteorologica]):
-    conteudo=''
+def get_conteudo(estacoes:list[EstacaoMeteorologica])->str:
+    conteudo:str=''
     for estacao in estacoes:
         conteudo+=estacao.__str__()
         estatisticas:Estatisticas=Estatisticas(estacao.registros)

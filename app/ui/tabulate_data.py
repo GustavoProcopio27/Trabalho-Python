@@ -1,9 +1,8 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.models.registro import RegistroMetereologico
-from time import sleep
 def tabulate(data:list["RegistroMetereologico"])->None:
-    formated_data=list()
+    formated_data:list[list[str]]=list()
     for row in data:
         data, hora, temperatura, umidade, precipitacao = row.tolist()
         linha_formatada:list[str] = [
@@ -32,7 +31,6 @@ def tabulate(data:list["RegistroMetereologico"])->None:
     # Linhas de dados
     for row in formated_data:
         print("| " + " | ".join(row) + " |")
-        sleep(0.001)
 
     print("=" * 77)
     

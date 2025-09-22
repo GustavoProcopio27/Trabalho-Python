@@ -10,11 +10,11 @@ class RegistroMetereologico:
         self._precipitacao:float=precipitacao
 
     @property
-    def data(self):
+    def data(self)->date:
         return self._data
 
     @data.setter
-    def data(self, value):
+    def data(self, value)->None:
         if not isinstance(value,str):
             raise TypeError("data deve ser passado como string")
         try:
@@ -24,49 +24,49 @@ class RegistroMetereologico:
             raise TypeError("formato incorreto")
         
     @property
-    def hora(self):
+    def hora(self)->str:
         return self._hora
 
     @hora.setter
-    def hora(self, value):
+    def hora(self, value)->None:
         if not isinstance(value,str):
             raise TypeError("hora deve ser passado como string")
-        self._hora = value
-
+        self._hora:str=value
+            
     @property
-    def temperatura(self):
+    def temperatura(self)->float:
         return self._temperatura
 
     @temperatura.setter
-    def temperatura(self, value):
+    def temperatura(self, value)->None:
         if not isinstance(value,(float,int)):
             raise TypeError("temperatura deve ser passado como float ou int")
         self._temperatura = value
 
     @property
-    def umidade(self):
+    def umidade(self)->float:
         return self._umidade
 
     @umidade.setter
-    def umidade(self, value):
+    def umidade(self, value)->None:
         if not isinstance(value,(float,int)):
             raise TypeError("temperatura deve ser passado como float ou int")
         self._umidade = value
 
     @property
-    def precipitacao(self):
+    def precipitacao(self)->float:
         return self._precipitacao
 
     @precipitacao.setter
-    def precipitacao(self, value):
+    def precipitacao(self, value)->None:
         if not isinstance(value,(float,int)):
             raise TypeError("temperatura deve ser passado como float ou int") 
         self._precipitacao = value
  
-    def __str__(self):
+    def __str__(self)->str:
         return f"data:{self.data},hora:{self.hora},temperatura:{self.temperatura},umidade:{self.umidade},precipitação:{self.precipitacao}"
     
-    def __repr__(self):
+    def __repr__(self)->str:
         return f"RegistroMetereologico({self.data},{self.hora},{self.temperatura},{self.umidade},{self.precipitacao})"
     
     def tolist(self)->list[str | float]:
