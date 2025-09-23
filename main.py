@@ -155,6 +155,8 @@ def main(option)->bool:
             try:
                 escolha:int=int(input("--------------- Escolha uma opção ---------------:\n"))
             except ValueError :
+                print('Opção invalida, retornando...')
+                sleep(1)
                 return False
             
             match escolha:
